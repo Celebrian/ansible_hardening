@@ -1,0 +1,13 @@
+---
+# tasks file for roles/ssh_hardening
+# Fail2Ban
+- include_tasks: fail2ban.yml
+  when: hardening_fail2ban_enabled | bool
+
+# SSH Hardening
+- include_tasks: ssh.yml
+  when: hardening_enabled | bool
+
+# Sudoers configuration
+- include_tasks: sudoers.yml
+  when: hardening_sudoers_enabled | bool

@@ -1,0 +1,11 @@
+---
+# handlers file for roles/hardening
+- name: restart ssh
+  service:
+    name: "{{ hardening_server_name }}"
+    state: "{{ hardening_restart_handler_state }}"
+
+- name: restart fail2ban
+  service:
+    name: "{{ hardening_fail2ban_service_name }}"
+    state: "{{ hardening_fail2ban_restart_handeler_state }}"

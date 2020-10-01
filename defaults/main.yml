@@ -1,0 +1,60 @@
+---
+# defaults file for roles/hardening
+hardening_enabled: True
+hardening_fail2ban_enabled: True
+hardening_sudoers_enabled: True
+
+# SSH options
+hardening_port: 22
+hardening_server_name: ssh
+hardening_sshd_state: started
+hardening_restart_handler_state: restarted
+hardening_passwordless_sudo: []
+hardening_passworded_sudo: []
+#hardening_allow_users: user1 user2 user3
+
+hardening_login_grace_time: 1m
+hardening_permit_root_login: "no"
+hardening_max_auth_tries: 3
+hardening_max_sessions: 4
+hardening_pubkey_authentication: "yes"
+hardening_authorized_keys_file: .ssh/authorized_keys
+hardening_password_authentication: "no"
+hardening_permit_empty_passwords: "no"
+hardening_challenge_response: "no"
+hardening_kerberos_enabled: "no"
+hardening_GSSAPI_enabled: "no"
+hardening_x11_forwarding: "no"
+
+hardening_kex_algorithms: curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+hardening_hostkey_algorithms: ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+hardening_ciphers: chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+hardening_macs: hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+
+# Fail2Ban options
+hardening_fail2ban_package: fail2ban
+hardening_fail2ban_service_name: fail2ban
+hardening_fail2ban_restart_handeler_state: restarted
+hardening_fail2ban_destemail: root@localhost
+hardening_fail2ban_sender: root@<fq-hostname>
+
+# Set default bantime (1h(our), 1d(ay), 1w(eek), 1mo(nth) default is seconds)
+hardening_fail2ban_bantime: 1d
+# A host is banned if it has generated "maxretry" during the last "findtime"
+hardening_fail2ban_findtime: 30m
+# "maxretry" is the number of tries allowed in "findtime" before getting banned
+hardening_fail2ban_maxretry: 2
+# Set if bantime should have an exponential increase (true/false) (must be quoted)
+hardening_fail2ban_increment: "true"
+# Max number of seconds to seed bantime to stop bots finding out when its unbanned.
+hardening_fail2ban_rndtime: 600
+# Set if you want a max bantime for increment
+#hardening_fail2ban_maxtime: 1y
+# Set the coefficient for the bantime formula (default is 1)
+hardening_fail2ban_factor: 1
+# The bantime formula, first one is default, second is more agressive
+#hardening_fail2ban_formula: ban.Time * (1<<(ban.Count if ban.Count<20 else 20)) * banFactor
+hardening_fail2ban_formula: ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)
+# IP addresses to never ban, default is localhost and private addresses (RFC1918 and RFC1943)
+hardening_fail2ban_ignoreip: 127.0.0.1/8 ::1 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 fd::/8

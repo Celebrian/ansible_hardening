@@ -1,0 +1,43 @@
+# {{ ansible_managed }}
+
+# Default stuff
+Port = {{ hardening_port }}
+
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+
+# Ciphers and HostKeyAlgorithms
+Ciphers {{ hardening_ciphers }}
+HostKeyAlgorithms {{ hardening_hostkey_algorithms }}
+# Key exchange algorithms
+KexAlgorithms {{ hardening_kex_algorithms }}
+# Message authentication codes
+MACs {{ hardening_macs }}
+# Accepted key types
+PubkeyAcceptedKeyTypes {{ hardening_hostkey_algorithms }}
+
+# Logging
+LogLevel VERBOSE
+
+# Authentication:
+LoginGraceTime {{ hardening_login_grace_time }}
+PermitRootLogin {{ hardening_permit_root_login }}
+MaxAuthTries {{ hardening_max_auth_tries }}
+MaxSessions {{ hardening_max_sessions }}
+
+PubkeyAuthentication {{ hardening_pubkey_authentication }}
+AuthorizedKeysFile {{ hardening_authorized_keys_file }}
+
+PasswordAuthentication {{ hardening_password_authentication }}
+PermitEmptyPasswords {{ hardening_permit_empty_passwords }}
+
+ChallengeResponseAuthentication {{ hardening_challenge_response }}
+KerberosAuthentication {{ hardening_kerberos_enabled }}
+GSSAPIAuthentication {{ hardening_GSSAPI_enabled }}
+
+X11Forwarding {{ hardening_x11_forwarding }}
+
+{% if hardening_allow_users %}
+# Allow only spesific users
+AllowUsers {{ hardening_allow_users }}
+{% endif %}

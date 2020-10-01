@@ -1,0 +1,18 @@
+---
+- name: Install fail2ban
+  package:
+    name: "{{ hardening_fail2ban_package }}"
+    state: present
+
+- name: Ensure started and enabled
+  service:
+    name: fail2ban
+    state: started
+    enabled: True
+
+- name: Change default fail2ban settings
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.d/hardened.local
+    mode: '0644'
+  notify: restart fail2ban

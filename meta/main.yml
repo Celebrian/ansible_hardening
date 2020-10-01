@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: Celebrian
+  description: Hardening SSH, installing and configuring fail2ban
+  company: N/A
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+
+  galaxy_tags:
+    - system
+    - security
+    - fail2ban
+    - hardening
+    - ssh
+
+dependencies: []

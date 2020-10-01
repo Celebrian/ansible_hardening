@@ -1,0 +1,18 @@
+---
+- name: Add passwordless sudo usage
+  copy:
+    dest: "/etc/sudoers.d/{{ item }}"
+    content: "{{ item }} ALL=(ALL) NOPASSWD:ALL"
+    mode: 0644
+    validate: visudo -cf %s
+  loop: "{{ hardening_passwordless_sudo }}"
+  when: hardening_passwordless_sudo | length > 0
+
+- name: Add passworded sudo usage
+  copy:
+    dest: /etc/sudoers.d/"{{ item }}"
+    content: "{{ item }} ALL=(ALL) ALL"
+    mode: 0644
+    validate: visudo -cf %s
+  loop: "{{ hardening_passworded_sudo }}"
+  when: hardening_passworded_sudo | length > 0

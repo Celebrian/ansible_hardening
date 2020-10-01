@@ -1,0 +1,30 @@
+# {{ ansible_managed }}
+
+[DEFAULT]
+destemail           = {{ hardening_fail2ban_destemail }}
+sender              = {{ hardening_fail2ban_sender }}
+ignoreip            = {{ hardening_fail2ban_ignoreip }}
+
+bantime             = {{ hardening_fail2ban_bantime }}
+findtime            = {{ hardening_fail2ban_findtime }}
+maxretry            = {{ hardening_fail2ban_maxretry }}
+bantime.increment   = {{ hardening_fail2ban_increment }}
+bantime.rndtime     = {{ hardening_fail2ban_rndtime }}
+{% if hardening_fail2ban_maxtime  is defined %}
+bantime.maxtime     = {{ hardening_fail2ban_maxtime }}
+{% endif %}
+bantime.factor      = {{ hardening_fail2ban_factor }}
+bantime.formula     = {{ hardening_fail2ban_formula }}
+
+#
+# JAILS
+#
+
+#
+# SSH
+#
+
+[sshd]
+enabled             = true
+mode                = aggressive
+port                = {{ hardening_port }}
